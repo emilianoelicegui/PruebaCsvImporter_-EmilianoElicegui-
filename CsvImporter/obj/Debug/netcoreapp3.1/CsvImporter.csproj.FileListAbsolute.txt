@@ -1,0 +1,13 @@
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.exe
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.deps.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.runtimeconfig.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.runtimeconfig.dev.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.dll
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\CsvImporter.pdb
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.csprojAssemblyReference.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.AssemblyInfoInputs.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.AssemblyInfo.cs
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.csproj.CoreCompileInputs.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.dll
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.pdb
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.genruntimeconfig.cache
