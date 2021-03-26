@@ -1,0 +1,12 @@
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Debug\netcoreapp3.1\Models.runtimeconfig.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Debug\netcoreapp3.1\Models.runtimeconfig.dev.json
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Debug\netcoreapp3.1\Models.dll
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.dll
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.pdb
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Debug\netcoreapp3.1\Models.genruntimeconfig.cache
