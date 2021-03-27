@@ -3,7 +3,6 @@ C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Release\netcoreapp3.1\Mo
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Release\netcoreapp3.1\Models.runtimeconfig.dev.json
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Release\netcoreapp3.1\Models.dll
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\bin\Release\netcoreapp3.1\Models.pdb
-C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Release\netcoreapp3.1\Models.csprojAssemblyReference.cache
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Release\netcoreapp3.1\Models.AssemblyInfoInputs.cache
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Release\netcoreapp3.1\Models.AssemblyInfo.cs
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\Models\obj\Release\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
