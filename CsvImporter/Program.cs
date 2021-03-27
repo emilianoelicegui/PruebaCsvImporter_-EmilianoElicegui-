@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CsvImporter.Helpers;
+using EFCore.BulkExtensions;
 using FileHelpers;
 using Models;
 using System;
@@ -20,8 +21,6 @@ namespace CsvImporter
 
         static void Main(string[] args)
         {
-            
-
             //var memoryLogger = new Thread(Logging); memoryLogger.Start();
 
             ImporterFileHelper();
@@ -39,13 +38,20 @@ namespace CsvImporter
             var records = engine.ReadFile("C:\\Users\\Emiliano Elicegui\\Stock (1).csv");
 
             List<Item> items = mapper.Map<List<Item>>(records);
-            
-            foreach (var i in items)
+
+            try
             {
-                Console.WriteLine(i.PointOfSale);
-                Console.WriteLine(i.Product);
-                Console.WriteLine(i.Date.ToString("dd/MM/yyyy"));
-                Console.WriteLine(i.Stock.ToString());
+                using (var context = new DBContext())
+                {
+                    context.BulkInsert(items);
+                    context.SaveChanges();
+                }
+
+                Console.WriteLine($"Saving list ({items.Count()}) items correct");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving items, details: {ex.Message}");
             }
         }
 
