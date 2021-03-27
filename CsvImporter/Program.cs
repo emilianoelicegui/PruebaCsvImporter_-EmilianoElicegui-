@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using CsvImporter.Helpers;
-using FileHelpers;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
-using Microsoft.EntityFrameworkCore;
-using CsvImporter.Helpers.ObjectDataReader;
-using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using CsvImporter.Services;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace CsvImporter
 {
@@ -18,83 +14,47 @@ namespace CsvImporter
         public static DateTime TestStart;
         public static int ProcessedPoints;
 
+        private readonly IConfiguration _configuration;
+        private readonly IServiceImporter _serviceImporter;
+
         static void Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();
+            host.Services.GetRequiredService<Program>().Run();
+        }
+
+        public Program(IConfiguration configuration, IHostingEnvironment env, IServiceImporter serviceImporter)
+        {
+            _configuration = configuration;
+            _serviceImporter = serviceImporter;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appSettings.json")
+                .AddEnvironmentVariables();
+
+            _configuration = builder.Build();
+        }
+
+        public void Run()
         {
             var memoryLogger = new Thread(Logging); memoryLogger.Start();
 
-            ImporterFileHelper();
+            _serviceImporter.ImporterFileHelper();
+
+            Exited = true;
         }
 
-        public static void ImporterFileHelper()
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            var config = new MapperConfiguration(cfg =>
-                    cfg.CreateMap<RecordClass, Item>()
-                );
-
-            var mapper = new Mapper(config);
-
-            var engine = new FileHelperEngine<RecordClass>();
-            var records = engine.ReadFile("C:\\Users\\Emiliano Elicegui\\Stock (1).csv");
-
-            List<Item> items = mapper.Map<List<Item>>(records);
-
-            try
-            {
-
-                using (var context = new DBContext())
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
                 {
-                    context.Database.BeginTransaction();
+                    services.AddTransient<Program>();
+                    services.AddTransient<IServiceImporter, ServiceImporter>();
 
-                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(context.Database.GetDbConnection().ConnectionString))
-                    {
-                        bulkCopy.DestinationTableName = "dbo.Items";
-
-                        try
-                        {
-                            // Write from the source to the destination.
-                            var reader = items.AsDataReader();
-
-                            SqlBulkCopyColumnMapping PointOfSale =
-                            new SqlBulkCopyColumnMapping("PointOfSale", "PointOfSale");
-                            bulkCopy.ColumnMappings.Add(PointOfSale);
-
-                            SqlBulkCopyColumnMapping Product =
-                            new SqlBulkCopyColumnMapping("Product", "Product");
-                            bulkCopy.ColumnMappings.Add(Product);
-
-                            SqlBulkCopyColumnMapping Date =
-                            new SqlBulkCopyColumnMapping("Date", "Date");
-                            bulkCopy.ColumnMappings.Add(Date);
-
-                            SqlBulkCopyColumnMapping Stock =
-                            new SqlBulkCopyColumnMapping("Stock", "Stock");
-                            bulkCopy.ColumnMappings.Add(Stock);
-
-                            bulkCopy.BulkCopyTimeout = 0;
-
-                            bulkCopy.WriteToServer(reader);
-
-                            context.Database.CommitTransaction();
-
-                            Console.WriteLine($"Saving list ({items.Count()}) items correct");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                            context.Database.RollbackTransaction();
-                        }
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving items, details: {ex.Message}");
-            }
-            finally
-            {
-                Exited = true;
-            }
+                    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+                });
         }
 
         public static void Logging()
