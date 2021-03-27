@@ -9,6 +9,7 @@
       "CsvImporter/1.0.0": {
         "dependencies": {
           "EPPlus": "5.6.1",
+          "FileHelpers.ExcelNPOIStorage": "3.4.2",
           "Microsoft.Build.Framework": "16.9.0",
           "Microsoft.EntityFrameworkCore": "5.0.4",
           "Microsoft.EntityFrameworkCore.Design": "5.0.4",
@@ -39,6 +40,30 @@
           "lib/netstandard2.1/EPPlus.dll": {
             "assemblyVersion": "5.6.1.0",
             "fileVersion": "5.6.1.0"
+          }
+        }
+      },
+      "FileHelpers/3.4.2": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/FileHelpers.dll": {
+            "assemblyVersion": "3.4.2.0",
+            "fileVersion": "3.4.2.0"
+          }
+        }
+      },
+      "FileHelpers.ExcelNPOIStorage/3.4.2": {
+        "dependencies": {
+          "FileHelpers": "3.4.2",
+          "NPOI": "2.2.1",
+          "SharpZipLib": "0.86.0"
+        },
+        "runtime": {
+          "lib/net45/FileHelpers.ExcelNPOIStorage.dll": {
+            "assemblyVersion": "3.4.2.0",
+            "fileVersion": "3.4.2.0"
           }
         }
       },
@@ -486,6 +511,11 @@
           }
         }
       },
+      "NETStandard.Library/2.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.1.3"
+        }
+      },
       "Newtonsoft.Json/10.0.1": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -519,6 +549,29 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {
             "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.1.20720"
+          }
+        }
+      },
+      "NPOI/2.2.1": {
+        "dependencies": {
+          "SharpZipLib": "0.86.0"
+        },
+        "runtime": {
+          "lib/net40/NPOI.OOXML.dll": {
+            "assemblyVersion": "2.2.1.0",
+            "fileVersion": "2.2.1.0"
+          },
+          "lib/net40/NPOI.OpenXml4Net.dll": {
+            "assemblyVersion": "2.2.1.0",
+            "fileVersion": "2.2.1.0"
+          },
+          "lib/net40/NPOI.OpenXmlFormats.dll": {
+            "assemblyVersion": "2.2.1.0",
+            "fileVersion": "2.2.1.0"
+          },
+          "lib/net40/NPOI.dll": {
+            "assemblyVersion": "2.2.1.0",
+            "fileVersion": "2.2.1.0"
           }
         }
       },
@@ -564,6 +617,14 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
+      "SharpZipLib/0.86.0": {
+        "runtime": {
+          "lib/20/ICSharpCode.SharpZipLib.dll": {
+            "assemblyVersion": "0.86.0.518",
+            "fileVersion": "0.86.0.518"
+          }
+        }
+      },
       "System.Collections/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.3",
@@ -1452,6 +1513,20 @@
       "path": "epplus/5.6.1",
       "hashPath": "epplus.5.6.1.nupkg.sha512"
     },
+    "FileHelpers/3.4.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ufGUrJqqbGUz322Hv4lp/tvc9NaT7outVuJPynRrjA0MP14OjgpGvw1GjY5QAQP36D6k1PTdjDlxw/0n25y1xA==",
+      "path": "filehelpers/3.4.2",
+      "hashPath": "filehelpers.3.4.2.nupkg.sha512"
+    },
+    "FileHelpers.ExcelNPOIStorage/3.4.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JJkO8nkYtxBm2qtcggc0OIoDX7Ze8Hp/pGDfrORiVMFwxzCCx7ro9Z9n1Sf/GCPdQWHEiPEDdb3uvfLqjRuXnw==",
+      "path": "filehelpers.excelnpoistorage/3.4.2",
+      "hashPath": "filehelpers.excelnpoistorage.3.4.2.nupkg.sha512"
+    },
     "Humanizer.Core/2.8.26": {
       "type": "package",
       "serviceable": true,
@@ -1718,12 +1793,26 @@
       "path": "microsoft.win32.systemevents/4.7.0",
       "hashPath": "microsoft.win32.systemevents.4.7.0.nupkg.sha512"
     },
+    "NETStandard.Library/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+      "path": "netstandard.library/2.0.0",
+      "hashPath": "netstandard.library.2.0.0.nupkg.sha512"
+    },
     "Newtonsoft.Json/10.0.1": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-ebWzW9j2nwxQeBo59As2TYn7nYr9BHicqqCwHOD1Vdo+50HBtLPuqdiCYJcLdTRknpYis/DSEOQz5KmZxwrIAg==",
       "path": "newtonsoft.json/10.0.1",
       "hashPath": "newtonsoft.json.10.0.1.nupkg.sha512"
+    },
+    "NPOI/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-esdT/yuODxuYCmqcbQ+6DDpAmPbVcJylgpA4leQZOfUcESbD8vYXEDtCTg4AKlWJIPHcbDnxlAtQxMEVw621Mw==",
+      "path": "npoi/2.2.1",
+      "hashPath": "npoi.2.2.1.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
       "type": "package",
@@ -1829,6 +1918,13 @@
       "sha512": "sha512-leXiwfiIkW7Gmn7cgnNcdtNAU70SjmKW3jxGj1iKHOvdn0zRWsgv/l2OJUO5zdGdiv2VRFnAsxxhDgMzofPdWg==",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "SharpZipLib/0.86.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5DbS1SlKLMi+WG00Cm0ueYf2oyXJrowETQk8nx96rmdjTuHsA3laPykGV7Sxi0R5Xxfx0Kh/EfacAZ1f6M7y/g==",
+      "path": "sharpziplib/0.86.0",
+      "hashPath": "sharpziplib.0.86.0.nupkg.sha512"
     },
     "System.Collections/4.3.0": {
       "type": "package",

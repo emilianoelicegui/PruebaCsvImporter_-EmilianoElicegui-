@@ -1,8 +1,8 @@
-﻿using Models;
-using OfficeOpenXml;
+﻿using CsvImporter.Helpers;
+using FileHelpers;
+using Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -20,10 +20,25 @@ namespace CsvImporter
         static void Main(string[] args)
         {
             //var memoryLogger = new Thread(Logging); memoryLogger.Start();
-            
-            ImporterCSV();
+
+            //ImporterCSV();
+
+            ImporterFileHelper();
         }
 
+        public static void ImporterFileHelper()
+        {
+            var engine = new FileHelperEngine<RecordClass>();
+            var records = engine.ReadFile("C:\\Users\\Emiliano Elicegui\\Stock (1).csv");
+
+            foreach (var record in records)
+            {
+                Console.WriteLine(record.PointOfSale);
+                Console.WriteLine(record.Product);
+                Console.WriteLine(record.Date.ToString("dd/MM/yyyy"));
+                Console.WriteLine(record.Stock.ToString());
+            }
+        }
         public static void ImporterCSV()
         {
             try
