@@ -13,7 +13,6 @@ namespace CsvImporter.Helpers
         public string Product { get; set; }
 
         [FieldConverter(ConverterKind.Date, "yyyy-MM-dd")]
-        //[FieldConverter(typeof(MoneyConverter))]
         public DateTime Date { get; set; }
 
         [FieldConverter(ConverterKind.Int16)]

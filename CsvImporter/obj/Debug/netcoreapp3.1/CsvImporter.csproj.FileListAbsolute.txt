@@ -85,3 +85,5 @@ C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.dll
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.pdb
 C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\obj\Debug\netcoreapp3.1\CsvImporter.genruntimeconfig.cache
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Proyectos\EmilianoElicegui\AnalyticAlways\CsvImporter\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
