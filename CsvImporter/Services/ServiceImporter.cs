@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -95,7 +96,7 @@ namespace CsvImporter.Services
 
                     bulkCopy.WriteToServer(reader);
 
-                    Console.WriteLine($"Saving list ({items.Count()}) items correct");
+                    Log.Logger.Information($"Saving list ({items.Count()}) items correct");
                 }
 
                 #endregion
@@ -106,7 +107,7 @@ namespace CsvImporter.Services
             catch (Exception ex)
             {
                 _context.Database.RollbackTransaction();
-                Console.WriteLine($"Error saving items, details: {ex.Message}");
+                Log.Logger.Error(ex.Message);
             }
         }
 
