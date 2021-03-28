@@ -4,6 +4,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using CsvImporter.Services;
 using Microsoft.Extensions.Configuration;
+using Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Serilog;
 using System.IO;
 
 namespace CsvImporter
@@ -14,35 +18,42 @@ namespace CsvImporter
         public static DateTime TestStart;
         public static int ProcessedPoints;
 
-        private readonly IConfiguration _configuration;
+        private static IConfiguration _configuration;
         private readonly IServiceImporter _serviceImporter;
 
-        static void Main(string[] args)
-        {
-            var host = CreateHostBuilder(args).Build();
-            host.Services.GetRequiredService<Program>().Run();
-        }
-
-        public Program(IConfiguration configuration, IHostingEnvironment env, IServiceImporter serviceImporter)
+        public Program(IConfiguration configuration, IServiceImporter serviceImporter)
         {
             _configuration = configuration;
             _serviceImporter = serviceImporter;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appSettings.json")
-                .AddEnvironmentVariables();
-
-            _configuration = builder.Build();
         }
 
-        public void Run()
+        static void Main(string[] args)
         {
-            var memoryLogger = new Thread(Logging); memoryLogger.Start();
+            var builder = new ConfigurationBuilder();
+            BuildConfig(builder);
 
-            _serviceImporter.ImporterFileHelper();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Build())
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
-            Exited = true;
+            Log.Logger.Information("App Start");
+
+            var host = CreateHostBuilder(args)
+                .UseSerilog((hostingContext, loggerConfiguracion) => loggerConfiguracion
+                    .ReadFrom.Configuration(hostingContext.Configuration)).Build();
+
+            host.Services.GetRequiredService<Program>().Run();
+        }
+
+        static void BuildConfig(IConfigurationBuilder builder)
+        {
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appSettings.json")
+                   .AddEnvironmentVariables();
+
+            _configuration = builder.Build();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
@@ -54,7 +65,29 @@ namespace CsvImporter
                     services.AddTransient<IServiceImporter, ServiceImporter>();
 
                     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+                    AddEntityFramework(services);
                 });
+        }
+
+        public static void AddEntityFramework(IServiceCollection services)
+        {
+            var connection = _configuration["DEFAULT_CONNECTION"] ?? _configuration["Data:DefaultConnection"];
+            
+            services.AddDbContext<DBContext>(options => options.UseSqlServer(connection).ConfigureWarnings(warnings =>
+            {
+                warnings.Ignore(RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning);
+            })
+            );
+        }
+
+        public void Run()
+        {
+            var memoryLogger = new Thread(Logging); memoryLogger.Start();
+
+            _serviceImporter.ImporterFileHelper();
+
+            Exited = true;
         }
 
         public static void Logging()
