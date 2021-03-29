@@ -103,7 +103,7 @@ namespace CsvImporter
             var lastProcessedPoints = 0;
             while (!Exited)
             {
-                Thread.Sleep(60 * 1000);
+                Thread.Sleep(30 * 1000);
                 var lapsed = (DateTime.Now - TestStart);
                 var currentUsage = (GC.GetTotalMemory(false) / 1024 / 1024);
                 var processedDelta = Math.Round((ProcessedPoints - lastProcessedPoints) * 2.0 / 1000);
