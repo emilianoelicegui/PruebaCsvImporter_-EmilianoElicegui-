@@ -8,22 +8,14 @@ namespace Models
         {
         }
 
-        //Constructor con parametros para la configuracion
         public DBContext(DbContextOptions options)
         : base(options)
         {
         }
 
-        //Sobreescribimos el metodo OnConfiguring para hacer los ajustes que queramos en caso de
-        //llamar al constructor sin parametros
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //En caso de que el contexto no este configurado, lo configuramos mediante la cadena de conexion
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=CsvImporter;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=localhost;Database=postefcore;Uid=root;Pwd=root;");
-            }
+
         }
 
         public DbSet<Item> Items { get; set; }
