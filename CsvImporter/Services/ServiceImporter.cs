@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
 using CsvImporter.Helpers;
-using CsvImporter.Helpers.ObjectDataReader;
+using CsvImporter.Repositories;
 using FileHelpers;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace CsvImporter.Services
 {
@@ -22,93 +16,32 @@ namespace CsvImporter.Services
 
     public class ServiceImporter : IServiceImporter
     {
-        private readonly DBContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public ServiceImporter(DBContext context, IMapper mapper, IConfiguration configuration)
+        private readonly IRepositoryImporter _repositoryImporter;
+
+        public ServiceImporter(IMapper mapper, IConfiguration configuration, IRepositoryImporter repositoryImporter)
         {
-            _context = context;
             _mapper = mapper;
             _configuration = configuration;
+            _repositoryImporter = repositoryImporter;
         }
 
         public void ImporterFileHelper()
         {
-            try
-            {
-                var _connection = _context.Database.GetDbConnection();
+            Log.Logger.Information("Run Importer File");
 
-                #region Read CSV 
+            #region Read CSV 
 
-                var engine = new FileHelperEngine<RecordClass>();
-                var records = engine.ReadFile(_configuration.GetValue<string>("PathExcel"));
+            var engine = new FileHelperEngine<RecordClass>();
+            var records = engine.ReadFile(_configuration["PathExcel"]);
 
-                List<Item> items = _mapper.Map<List<Item>>(records);
+            IEnumerable<Item> items = _mapper.Map<IEnumerable<Item>>(records);
 
-                #endregion
+            #endregion
 
-                #region Truncate table 
-
-                using (var cmd = _connection.CreateCommand())
-                {
-                    if (_connection.State.Equals(ConnectionState.Closed))
-                        _connection.Open();
-
-                    cmd.CommandText = $"TRUNCATE TABLE Items";
-
-                    cmd.ExecuteNonQuery();
-                }
-
-                if (_connection.State.Equals(ConnectionState.Open))
-                    _connection.Close();
-
-                #endregion
-
-                _context.Database.BeginTransaction();
-
-                #region Insert table 
-
-                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(_connection.ConnectionString))
-                {
-                    bulkCopy.DestinationTableName = "dbo.Items";
-
-                    // Write from the source to the destination.
-                    var reader = items.AsDataReader();
-
-                    SqlBulkCopyColumnMapping PointOfSale =
-                    new SqlBulkCopyColumnMapping("PointOfSale", "PointOfSale");
-                    bulkCopy.ColumnMappings.Add(PointOfSale);
-
-                    SqlBulkCopyColumnMapping Product =
-                    new SqlBulkCopyColumnMapping("Product", "Product");
-                    bulkCopy.ColumnMappings.Add(Product);
-
-                    SqlBulkCopyColumnMapping Date =
-                    new SqlBulkCopyColumnMapping("Date", "Date");
-                    bulkCopy.ColumnMappings.Add(Date);
-
-                    SqlBulkCopyColumnMapping Stock =
-                    new SqlBulkCopyColumnMapping("Stock", "Stock");
-                    bulkCopy.ColumnMappings.Add(Stock);
-
-                    bulkCopy.BulkCopyTimeout = 0;
-
-                    bulkCopy.WriteToServer(reader);
-
-                    Log.Logger.Information($"Saving list ({items.Count()}) items correct");
-                }
-
-                #endregion
-
-                _context.Database.CommitTransaction();
-
-            }
-            catch (Exception ex)
-            {
-                _context.Database.RollbackTransaction();
-                Log.Logger.Error(ex.Message);
-            }
+            _repositoryImporter.ImporterFileHelper(items);
         }
 
     }

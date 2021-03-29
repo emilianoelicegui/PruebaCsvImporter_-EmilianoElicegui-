@@ -6,9 +6,11 @@ using CsvImporter.Services;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Serilog;
 using System.IO;
+using CsvImporter.Repositories;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CsvImporter
 {
@@ -19,11 +21,13 @@ namespace CsvImporter
         public static int ProcessedPoints;
 
         private static IConfiguration _configuration;
+        private readonly ILoggerFactory _loggerFactory;
         private readonly IServiceImporter _serviceImporter;
 
-        public Program(IConfiguration configuration, IServiceImporter serviceImporter)
+        public Program(IConfiguration configuration, ILoggerFactory loggerFactory, IServiceImporter serviceImporter)
         {
             _configuration = configuration;
+            _loggerFactory = loggerFactory;
             _serviceImporter = serviceImporter;
         }
 
@@ -41,8 +45,8 @@ namespace CsvImporter
             Log.Logger.Information("App Start");
 
             var host = CreateHostBuilder(args)
-                .UseSerilog((hostingContext, loggerConfiguracion) => loggerConfiguracion
-                    .ReadFrom.Configuration(hostingContext.Configuration)).Build();
+                .UseSerilog()
+                .Build();
 
             host.Services.GetRequiredService<Program>().Run();
         }
@@ -63,6 +67,7 @@ namespace CsvImporter
                 {
                     services.AddTransient<Program>();
                     services.AddTransient<IServiceImporter, ServiceImporter>();
+                    services.AddTransient<IRepositoryImporter, RepositoryImporter>();
 
                     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -72,7 +77,7 @@ namespace CsvImporter
 
         public static void AddEntityFramework(IServiceCollection services)
         {
-            var connection = _configuration["DEFAULT_CONNECTION"] ?? _configuration["Data:DefaultConnection"];
+            var connection = _configuration["Data:DefaultConnection"];
             
             services.AddDbContext<DBContext>(options => options.UseSqlServer(connection).ConfigureWarnings(warnings =>
             {
@@ -87,11 +92,14 @@ namespace CsvImporter
 
             _serviceImporter.ImporterFileHelper();
 
+            Log.Logger.Information("App stop");
             Exited = true;
         }
 
         public static void Logging()
         {
+            Log.Logger.Information("Logging memory start");
+
             var lastProcessedPoints = 0;
             while (!Exited)
             {
@@ -101,7 +109,7 @@ namespace CsvImporter
                 var processedDelta = Math.Round((ProcessedPoints - lastProcessedPoints) * 2.0 / 1000);
                 lastProcessedPoints = ProcessedPoints;
 
-                Console.WriteLine("Time Elapsed {0}, Memory Used: {1}Mb, Aprox KPoints/Sec: {2}", lapsed, currentUsage, processedDelta);
+                Log.Logger.Information("Time Elapsed {0}, Memory Used: {1}Mb, Aprox KPoints/Sec: {2}", lapsed, currentUsage, processedDelta);
             }
         }
     }
