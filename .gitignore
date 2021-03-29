@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs/CsvImporter/DesignTimeBuild
+/UnitTest/obj
+/UnitTest/bin/Debug/netcoreapp3.1
+/.vs/CsvImporter/v16/TestStore/0

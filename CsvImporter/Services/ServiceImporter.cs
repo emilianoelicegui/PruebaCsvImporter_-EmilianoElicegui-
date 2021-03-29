@@ -11,7 +11,7 @@ namespace CsvImporter.Services
 {
     public interface IServiceImporter
     {
-        void ImporterFileHelper();
+        void ImporterFileHelper(string pathExcel);
     }
 
     public class ServiceImporter : IServiceImporter
@@ -28,14 +28,14 @@ namespace CsvImporter.Services
             _repositoryImporter = repositoryImporter;
         }
 
-        public void ImporterFileHelper()
+        public void ImporterFileHelper(string pathExcel)
         {
             Log.Logger.Information("Run Importer File");
 
             #region Read CSV 
 
             var engine = new FileHelperEngine<RecordClass>();
-            var records = engine.ReadFile(_configuration["PathExcel"]);
+            var records = engine.ReadFile(pathExcel);
 
             IEnumerable<Item> items = _mapper.Map<IEnumerable<Item>>(records);
 

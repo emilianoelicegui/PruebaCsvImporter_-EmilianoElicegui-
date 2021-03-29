@@ -90,7 +90,7 @@ namespace CsvImporter
         {
             var memoryLogger = new Thread(Logging); memoryLogger.Start();
 
-            _serviceImporter.ImporterFileHelper();
+            _serviceImporter.ImporterFileHelper(_configuration["PathExcel"]);
 
             Log.Logger.Information("App stop");
             Exited = true;
